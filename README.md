@@ -1,63 +1,33 @@
-# Nuxt 3 Minimal Starter
+# Health System Front-end
+The initial idea is to create a landing page where the user can schedule a consultation with a doctor. </br>
+Maybe in the future add some features like videocall for online medical consultation. </br>
+The backend will be done in Java, you can follow the <a href="https://github.com/MatheusFelizardo/health-system-backend"> backend here </a> </br>
+The main goal of this project is to practice Nuxt, svg usage, animations with GSAP, and the development of a fullstack application, from architecture to code.
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+
+## Next steps
+- finish the landing page as <a href="https://www.figma.com/file/jMsoIw7qRK8dNTJ4hno5Kv/Trafalgar-Landing-Page-(Copy)?node-id=63%3A2677&mode=dev">layout base </a>
+- add adjustments in mobile resolution
+- add animations (see sugestions)
+- add blog page layout (json file or notion api)
+
+### Animations ideas
+- Svg bullets blink one at a time
+- Lightning border on waves svg
+- Animations on scroll: Cards start white and rotate showing the content | scroll in the X and y for all contents
+
 
 ## Setup
-
-Make sure to install the dependencies:
-
+### Install the dependencies:
 ```bash
-# npm
-npm install
-
-# pnpm
-pnpm install
-
-# yarn
 yarn install
 ```
-
-## Development Server
-
+### Development Server
 Start the development server on `http://localhost:3000`:
 
 ```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm run dev
-
-# yarn
 yarn dev
 ```
 
-## Production
-
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm run build
-
-# yarn
-yarn build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm run preview
-
-# yarn
-yarn preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+</br></br>
+Credits for the landing page to <a href="https://www.figma.com/community/file/892358789568947362/Trafalgar-Landing-Page"> Trafalgar Landing Page <a/> by <a href="https://www.figma.com/@heroninja">Hero Ninja </a>

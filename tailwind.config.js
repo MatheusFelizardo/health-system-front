@@ -16,6 +16,9 @@ module.exports = {
       fontFamily: {
         'sans': ['Mulish', ...defaultTheme.fontFamily.sans],
       },
+      boxShadow: {
+        'custom': '10px 40px 50px 0px rgba(229, 233, 246, 0.40)'
+      }
     },
   },
   plugins: [],
