@@ -6,7 +6,7 @@ The main goal of this project is to practice Nuxt, svg usage, animations with GS
 
 
 ## Next steps
-- finish the landing page as <a href="https://www.figma.com/file/jMsoIw7qRK8dNTJ4hno5Kv/Trafalgar-Landing-Page-(Copy)?node-id=63%3A2677&mode=dev">layout base </a>
+- finish the landing page as <a target="_blank" href="https://www.figma.com/file/jMsoIw7qRK8dNTJ4hno5Kv/Trafalgar-Landing-Page-(Copy)?node-id=63%3A2677&mode=dev">layout base </a>
 - add adjustments in mobile resolution
 - add animations (see sugestions)
 - add blog page layout (json file or notion api)
@@ -30,4 +30,4 @@ yarn dev
 ```
 
 </br></br>
-Credits for the landing page to <a href="https://www.figma.com/community/file/892358789568947362/Trafalgar-Landing-Page"> Trafalgar Landing Page <a/> by <a href="https://www.figma.com/@heroninja">Hero Ninja </a>
+Credits for the landing page to <a target="_blank" href="https://www.figma.com/community/file/892358789568947362/Trafalgar-Landing-Page"> Trafalgar Landing Page <a/> by <a target="_blank" href="https://www.figma.com/@heroninja">Hero Ninja </a>
