@@ -11,7 +11,7 @@
 <script setup>
 
   const baseStyles = computed(() => {
-    return `rounded-full w-fit min-w-[160px] h-[40px] flex items-center justify-center gap-[14px] px-6 py-3 font-semibold ${schema[props.variation]}`
+    return `rounded-full w-fit min-w-[160px] h-[40px] flex items-center justify-center gap-[14px] px-6 py-3 font-semibold transition-colors ${schema[props.variation]}`
   })
 
   const props = defineProps({

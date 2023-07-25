@@ -4,4 +4,10 @@
 
 html, body, #__nuxt {
   height: 100%;
+  scroll-behavior: smooth;
+}
+
+
+#testimonials-bg, .main-gradient {
+  background: linear-gradient(223deg, #67C3F3 0%, #5A98F2 100%);
 }
