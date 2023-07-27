@@ -7,7 +7,7 @@
     <div class="flex-1 basis-4/12">
       <h1 class="text-5xl font-semibold mb-8">Virtual healthcare for you</h1>
       <p class="text-lg font-light mb-8">Healthsys provides progressive, and affordable healthcare, accessible on mobile and online for everyone</p>
-      <Button :url="'/#find-doctor'"> Find a doctor </Button>
+      <Button :url="'/appointment'"> Find a doctor </Button>
     </div>
 
     <div class="flex-1 basis-5/12">

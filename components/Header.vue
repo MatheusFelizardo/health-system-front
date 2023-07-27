@@ -22,7 +22,7 @@
   import Logo from "./Logo.vue"
   const route = useRoute()
   const links = ref([
-    { name: "Find a doctor", path: "/app" },
+    { name: "Find a doctor", path: "/appointment" },
     { name: "Testimonials", path: "/#testimonials" },
     { name: "About us", path: "/about" },
   ])

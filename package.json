@@ -23,6 +23,7 @@
     "@pinia/nuxt": "^0.4.11",
     "@vuepic/vue-datepicker": "^5.4.0",
     "axios": "^1.4.0",
+    "gsap": "^3.12.2",
     "pinia": "^2.1.6"
   }
 }

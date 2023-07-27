@@ -13,9 +13,13 @@
         </VueDatePicker>
       </div>
   
-      <div v-if="availableHours.length > 0" class="basis-5/12 flex justify-center w-full flex-col">
+      <div 
+        v-if="availableHours.length > 0" 
+        ref="hourSelector" 
+        class="relative -z-10 opacity-0 translate-x-[-100%] basis-5/12 flex justify-center w-full flex-col"
+      >
         <div class="bg-blue-200 p-5">
-          <h3 class="text-gray-400 font-semibold text-sm text-center">1 HOUR DURATION</h3>
+          <h3 class="text-gray-400 font-semibold text-xs text-center">1 HOUR DURATION</h3>
   
           <div class="grid grid-cols-3 gap-2 mt-2 place-items-center">
             <div 
@@ -25,7 +29,9 @@
             :class="hours.available ? 'bg-white text-blue-950' : 'bg-blue-300 text-gray-400 cursor-not-allowed'"
             >
               <label 
-                class="cursor-pointer w-full font-semibold text-sm rounded-sm p-2 flex justify-center items-baseline"
+                class="w-full font-semibold text-sm rounded-sm p-2 flex justify-center items-baseline"
+              :class="hours.available ? 'cursor-pointer' : 'cursor-not-allowed'"
+
                 :for="`${hours.time.hour} ${index}`"
               >
               {{ hours.time.hour }}&ThinSpace;<small>{{ hours.time.period.toLocaleUpperCase() }}</small>
@@ -56,20 +62,29 @@
 <script setup>
   import ArrowRightIcon from 'assets/img/icons/ArrowRightIcon';
   import VueDatePicker from '@vuepic/vue-datepicker';
+  import gsap from 'gsap'
   import '@vuepic/vue-datepicker/dist/main.css'
-
   import { storeToRefs } from 'pinia';
   const { $userStore } = useNuxtApp()
   const { schedule } = storeToRefs($userStore)
 
   const selectedDate = ref(new Date())
   const datepicker = ref(null)
+  const hourSelector = ref(null)
   const selectedDoctor = ref("Clinica da Saúde")
   const availableHours = ref([])
   const selectedHours = ref(null)
   const scheduleMessage = ref('')
 
   const checkScheduleHours = async (date) => {
+
+    gsap.to(hourSelector.value, {
+      opacity: 0,
+      x: '-100%',
+      duration: 0,
+      zIndex: '-10',
+      ease: 'power2.inOut'
+    })
     
     const jsDate = new Date(date);
     const day = jsDate.getDate();
@@ -106,6 +121,15 @@
     })
   
     availableHours.value = times
+    console.log(hourSelector.value)
+    setTimeout(() => {
+      gsap.to(hourSelector.value, {
+        opacity: 1,
+        x: 0,
+        duration: .5,
+        zIndex: 10
+      })
+    }, 100)
     return times
   }
 

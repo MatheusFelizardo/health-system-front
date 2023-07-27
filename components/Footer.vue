@@ -53,7 +53,7 @@
   const links = ref([
     { name: "About us", path: "/about" },
     { name: "Testimonials", path: "/#testimonials" },
-    { name: "Find a doctor", path: "/#find-doctor" },
+    { name: "Find a doctor", path: "/appointment" },
     { name: "Careers", path: "/#careers" },
   ])
 
