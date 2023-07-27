@@ -64,7 +64,7 @@
   const loading = ref(false)
   const serviceProvider = ref('')
   const showServiceProviderModal = ref(false)
-  const filledForm = ref(true)
+  const filledForm = ref(false)
   
   watchEffect(() => {
     if(providers.value.length > 0) {
