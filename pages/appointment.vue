@@ -16,34 +16,38 @@
           </div>
 
           <div class="bg-white min-h-[360px] rounded-2xl p-6 flex">
-            <div class="flex-1 basis-8/12">
+            <div class="w-8/12" v-if="!filledForm">
+              <UserForm @handleFilledForm="handleFilledForm" />
+            </div>
+            
+            <div v-else class="w-8/12">
               <div class="w-10/12">
-                <button class="group flex flex-col w-full text-blue-500">
-                  <!-- <div class="flex w-full justify-between items-center">
-                    <span class="text-black font-semibold text-sm">Select the doctor</span>
-                    <InputSearchIcon />
-                  </div> -->
+                <button class="group flex flex-col w-full text-blue-500" @click="handleSelectProvider">
                   <div class="flex w-full justify-between items-center">
-                    <span class="text-black font-semibold text-sm">Clinica da Saúde</span>
-                    <CheckIcon />
+                    <span class="text-black font-semibold text-sm" >
+                      {{ serviceProvider ? serviceProvider : "Select the service provider"}}
+                    </span>
+                    <CheckIcon v-if="serviceProvider" />
+                    <InputSearchIcon v-else />
                   </div>
                   <Underline class="my-1 bg-blue-500 transition-colors duration-300 group-hover:bg-blue-950" />
                 </button>
               </div>
 
               <div class="mt-4">
-                <h3 class="text-black font-semibold mb-2">Appointment dates</h3>
-
                 <div>
-                  <Datepicker />
+                  <ScheduleSystem :service-provider="serviceProvider" @handleFilledForm="handleFilledForm" />
                 </div>
               </div>
             </div>
 
-            <div class="flex-1 basis-4/12">
-
-            </div>
           </div>
+
+          <ServiceProviderSelector 
+            v-if="showServiceProviderModal" 
+            :toggleModal="toggleServiceProviderModal" 
+            @updateServiceProvider="updateServiceProvider"
+          />
         </div>
       </section>
     </template>
@@ -52,16 +56,42 @@
 
 <script setup>
   import InputSearchIcon from '~/assets/img/icons/InputSearchIcon'
-
   import { storeToRefs } from 'pinia';
-import CheckIcon from 'assets/img/icons/CheckIcon.vue';
+  import CheckIcon from 'assets/img/icons/CheckIcon';
+
   const { $userStore } = useNuxtApp()
   const { providers } = storeToRefs($userStore)
   const loading = ref(false)
-
+  const serviceProvider = ref('')
+  const showServiceProviderModal = ref(false)
+  const filledForm = ref(true)
+  
   watchEffect(() => {
     if(providers.value.length > 0) {
       loading.value = false
     }
   })
+
+  const handleSelectProvider = () => {
+    serviceProvider.value = ''
+    toggleServiceProviderModal()
+  }
+
+  const toggleServiceProviderModal = () => {
+    showServiceProviderModal.value = !showServiceProviderModal.value
+  }
+
+  const updateServiceProvider = (provider) => {
+    serviceProvider.value = provider.name
+  }
+
+  const handleFilledForm = (boolean) => {
+    if (!boolean) {
+      serviceProvider.value = ''
+    }
+    
+    filledForm.value = boolean
+  }
+  
+
 </script>

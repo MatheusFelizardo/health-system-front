@@ -8,7 +8,8 @@ export const useUserStore = defineStore('user', {
     {
       users: {},
       providers: [],
-      schedule: []
+      schedule: [],
+      foundUser: {}
     }
   ),
   getters: {
@@ -25,6 +26,21 @@ export const useUserStore = defineStore('user', {
     async getById(id) {
 
     },
+
+    async getByEmail(email) {
+      try {
+        const response = await $axios.post(`/users/email`, {email} )
+        const user = response.data
+  
+        this.foundUser = user;
+        return user;
+      } catch (e) {
+        this.foundUser = ''
+        return e.response.data
+      }
+     
+    },
+
     async getServiceProviders() {
       if (this.providers.length > 0) {
         return this.providers;
