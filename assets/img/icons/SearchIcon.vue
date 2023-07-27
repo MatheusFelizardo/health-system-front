@@ -30,4 +30,5 @@
       </clipPath>
     </defs>
   </svg>
+  
 </template>
