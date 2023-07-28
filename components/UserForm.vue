@@ -13,12 +13,13 @@
           </label>
           <div class="relative flex items-center">
             <input 
-            @click="animateLabel"
+            @focusin="animateLabel"
             @keyup="handleSearchUser"
             id="email" 
             class="w-full text-sm border-b-2 border-blue-500 outline-none focus:border-blue-950" 
             type="email" 
             ref="email"
+            name="email"
             required
             @focusout="backLabel"
           >
@@ -31,40 +32,37 @@
             <label 
               for="name" 
               class="mb-1 font-bold text-sm relative z-10 transition-transform pointer-events-none"
-              :class="foundUser.name ? 'translate-y-0' : 'translate-y-5'"
             > 
               Name
             </label>
             <div class="relative flex items-center">
               <input 
-                @click="animateLabel"
                 required
                 id="name" 
+                name="name"
                 class="w-full text-sm border-b-2 border-blue-500 outline-none focus:border-blue-950" 
                 type="text" 
                 :value="foundUser.name ? foundUser.name : ''"
-                @focusout="backLabel"
               >
             </div>
           </div>
 
           <div class="group flex flex-col w-full relative">
             <label 
-              for="phone-number" 
+              for="phoneNumber" 
               class="mb-1 font-bold text-sm relative z-10 transition-transform pointer-events-none" 
-              :class="foundUser.phone_number ? 'translate-y-0' : 'translate-y-5'"
             > 
               Phone number
             </label>
             <div class="relative flex items-center">
               <input 
-                @click="animateLabel"
                 required
-                id="phone-number" 
+                id="phoneNumber" 
+                name="phoneNumber"
                 class="w-full text-sm border-b-2 border-blue-500 outline-none focus:border-blue-950" 
                 type="text" 
+                @input="(e)=> e.target.value = e.target.value.replace(/[^0-9+]/g, '')"
                 :value="foundUser.phone_number ? foundUser.phone_number : ''"
-                @focusout="backLabel"
               >
             </div>
           </div>
@@ -174,7 +172,35 @@
     }
   }
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    const form = document.querySelector('form')
+    const email = form.email.value
+    const name = form.name.value
+    const phoneNumber = form.phoneNumber.value
+
+    const user = {
+      email,
+      name,
+      phoneNumber: phoneNumber,
+    }
+    
+    if (!foundUser.value) {
+      const saveddUser = await $userStore.create(user)
+      console.log('saveddUser', saveddUser)
+      emits('handleFilledForm', true)
+
+      return
+    }
+
+    if (user.email !== foundUser.value.email || user.name !== foundUser.value.name || user.phoneNumber !== foundUser.value.phone_number) {
+      user.id = foundUser.value.id
+      const updatedUser = await $userStore.update(user)
+      console.log('updatedUser', updatedUser)
+
+      emits('handleFilledForm', true)
+      return
+    }
+
     emits('handleFilledForm', true)
   }
 </script>

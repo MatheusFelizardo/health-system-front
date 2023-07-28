@@ -7,63 +7,84 @@
       <div v-if="loading">
         <SpinIcon class="w-10 h-10 text-blue-500 animate-spin-slow" />
       </div>
-      <div v-else>
-        <h3 class="text-black font-semibold mb-2">Appointment dates</h3>
+      <div v-else class="w-full flex items-center gap-4">
+        <div class="w-8/12">
+          <h3 class="text-black font-semibold mb-2">Appointment dates</h3>
 
-        <div class="flex">
-          <div class="basis-7/12 border border-blue-500 p-1 bg-blue-300 rounded-sm">
-            <VueDatePicker ref="datepicker" :preview-format="checkScheduleHours" inline :class="'w-full rounded-sm'">
-              <template #arrow-left>
-                <ArrowRightIcon class="rotate-180" />
-              </template>
-      
-              <template #arrow-right>
-                <ArrowRightIcon />
-              </template>
-            </VueDatePicker>
-          </div>
-      
-          <div v-if="availableHours.length > 0" 
-            ref="hourSelector" 
-            class="relative -z-10 opacity-0 basis-5/12 flex justify-center w-full flex-col"
-          >
-            <div class="bg-blue-200 p-5">
-              <h3 class="text-gray-400 font-semibold text-xs text-center">1 HOUR DURATION</h3>
-      
-              <div class="grid grid-cols-3 gap-2 mt-2 place-items-center">
-                <div 
-                class="input-ref relative w-full group" 
-                v-for="(hours, index) in availableHours" 
-                :key="hours + index" 
-                :class="hours.available ? 'bg-white text-blue-950' : 'bg-blue-300 text-gray-400 cursor-not-allowed'"
-                >
-                  <label 
-                    class="w-full font-semibold text-sm rounded-sm p-2 flex justify-center items-baseline"
-                  :class="hours.available ? 'cursor-pointer' : 'cursor-not-allowed'"
-    
-                    :for="`${hours.time.hour} ${index}`"
+          <div class="flex">
+            <div class="basis-7/12 border border-blue-500 p-1 bg-blue-300 rounded-sm">
+              <VueDatePicker ref="datepicker" :preview-format="checkScheduleHours" inline :class="'w-full rounded-sm'">
+                <template #arrow-left>
+                  <ArrowRightIcon class="rotate-180" />
+                </template>
+        
+                <template #arrow-right>
+                  <ArrowRightIcon />
+                </template>
+              </VueDatePicker>
+            </div>
+        
+            <div v-if="availableHours.length > 0" 
+              ref="hourSelector" 
+              class="relative -z-10 opacity-0 basis-5/12 flex justify-center w-full flex-col"
+            >
+              <div class="bg-blue-200 p-5">
+                <h3 class="text-gray-400 font-semibold text-xs text-center">1 HOUR DURATION</h3>
+        
+                <div class="grid grid-cols-3 gap-2 mt-2 place-items-center">
+                  <div 
+                  class="input-ref relative w-full group" 
+                  v-for="(hours, index) in availableHours" 
+                  :key="hours + index" 
+                  :class="hours.available ? 'bg-white text-blue-950' : 'bg-blue-300 text-gray-400 cursor-not-allowed'"
                   >
-                  {{ hours.time.hour }}&ThinSpace;<small>{{ hours.time.period.toLocaleUpperCase() }}</small>
-                  </label>
-                  <input 
-                    :id="`${hours.time.hour} ${index}`"
-                    name="selectedHour" 
-                    type="radio" 
-                    :value="`${hours?.time.hour} ${hours?.time.period.toLocaleUpperCase()}`"
-                    class="absolute top-0 pointer-events-none opacity-0 w-0 h-0"
-                    :disabled="!hours.available"
-                    @change="handleActive"
-                  >
+                    <label 
+                      class="w-full font-semibold text-sm rounded-sm p-2 flex justify-center items-baseline"
+                    :class="hours.available ? 'cursor-pointer' : 'cursor-not-allowed'"
+      
+                      :for="`${hours.time.hour} ${index}`"
+                    >
+                    {{ hours.time.hour }}&ThinSpace;<small>{{ hours.time.period.toLocaleUpperCase() }}</small>
+                    </label>
+                    <input 
+                      :id="`${hours.time.hour} ${index}`"
+                      name="selectedHour" 
+                      type="radio" 
+                      :value="`${hours?.time.hour} ${hours?.time.period.toLocaleUpperCase()}`"
+                      class="absolute top-0 pointer-events-none opacity-0 w-0 h-0"
+                      :disabled="!hours.available"
+                      @change="handleActive"
+                    >
+                  </div>
                 </div>
               </div>
             </div>
+            
           </div>
-          
         </div>
-      
-        <div class="pt-4 text-sm font-bold">
-          <span v-if="scheduleMessage">{{ scheduleMessage }}</span>
-          <span class="block h-[20px]" v-else></span>
+
+        <div v-if="showResume" class="w-4/12 self-center translate-y-4">
+          <div class="px-3 pt-5 pb-6 bg-yellow-100">
+            <h3 class="text-center mb-2 font-bold text-blue-950">Appointment resume</h3>
+            <div class="mb-2">
+              <p><strong class="text-blue-950">Name:</strong> {{ foundUser.name }}</p>
+              <p><strong class="text-blue-950">Email:</strong> {{ foundUser.email }}</p>
+              <p><strong class="text-blue-950">Phone Number:</strong> {{ foundUser.phone_number }}</p>
+
+              <p><strong class="text-blue-950">Service Provider:</strong> {{ serviceProvider }}</p>
+              <p><strong class="text-blue-950">Date/Hour:</strong> {{ selectedDate.replaceAll('-', '/') }} at {{ selectedHours }}</p>
+            </div>
+
+            <div>
+              <Button @click="handleConfirmSchedule" class="group w-full h-[30px] rounded-none" type="button">
+                <span class="">
+                  {{ savingData ? 'Saving' : 'Confirm' }}
+                </span>
+                <ArrowRightIcon v-if="!savingData" class="fill-white relative top-.5 w-5 h-5 group-hover:translate-x-2 transition-transform" />
+                <SpinIcon v-else class="w-5 h-5 text-white animate-spin-slow" />
+              </Button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -80,7 +101,7 @@
   import '@vuepic/vue-datepicker/dist/main.css'
   import { storeToRefs } from 'pinia';
   const { $userStore } = useNuxtApp()
-  const { schedule } = storeToRefs($userStore)
+  const { schedule, foundUser } = storeToRefs($userStore)
 
   const selectedDate = ref(new Date())
   const datepicker = ref(null)
@@ -89,6 +110,9 @@
   const selectedHours = ref(null)
   const scheduleMessage = ref('')
   const loading = ref(false)
+  const showResume = ref(false)
+  const savingData = ref(false)
+  const selectSchedule = ref(null)
   
   const props = defineProps({
     serviceProvider: {
@@ -142,7 +166,8 @@
 
         times.push({
           time: convertTo12HourFormat(formatedTime),
-          available: item.reservation ? false : true
+          available: item.reservation ? false : true,
+          id: item.id
         })
         
         return item
@@ -177,8 +202,12 @@
 
     const selectedHour = e.target.value
     selectedHours.value = selectedHour
+
+    selectSchedule.value = availableHours.value.filter(item => `${item?.time.hour} ${item?.time.period.toLocaleUpperCase()}` === selectedHour)[0]
    
     scheduleMessage.value = `Scheduling for ${selectedDate.value} at ${selectedHour} at ${serviceProvider.value}`
+
+    showResume.value = true
   }
 
   const convertTo12HourFormat = (timeString) => {
@@ -210,6 +239,8 @@
 
   const resetValues = () => {
     scheduleMessage.value = ''
+    showResume.value = false
+
     const inputs = document.querySelectorAll('.input-ref')
     
     inputs.forEach(input => {
@@ -225,6 +256,9 @@
       if (serviceProvider.value) {
         selectedDate.value = new Date()
         scheduleMessage.value = ''
+        showResume.value = false
+
+        
         loading.value = true
         setTimeout(() => {
           loading.value = false
@@ -236,6 +270,16 @@
 
   const handleCancelSchedule = () => {
     emits('handleFilledForm', false)
+  }
+
+  const handleConfirmSchedule = () => {
+    const data = {
+      date: selectedDate.value,
+      hour: selectedHours.value,
+      schedule: selectSchedule.value,
+    }
+    savingData.value = true
+    emits('showThankYouMessage', true, data)
   }
 
 </script>

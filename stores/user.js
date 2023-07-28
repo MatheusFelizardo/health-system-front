@@ -41,6 +41,32 @@ export const useUserStore = defineStore('user', {
      
     },
 
+    async create(user) {
+      try {
+        const response = await $axios.post('/users/create', user)
+        const userCreated = response.data
+        this.foundUser = userCreated;
+
+        return userCreated;
+      } catch (e) {
+        this.foundUser = ''
+        return e.response.data
+      }
+    },
+
+    async update(user) {
+      try {
+        const response = await $axios.put(`/users/update/${user.id}`, user)
+        const updatedUser = response.data
+
+        this.foundUser = updatedUser;
+        return updatedUser;
+      } catch (e) {
+        this.foundUser = ''
+        return e.response.data
+      }
+    },
+
     async getServiceProviders() {
       if (this.providers.length > 0) {
         return this.providers;
@@ -63,9 +89,27 @@ export const useUserStore = defineStore('user', {
       this.schedule = schedule;
       return schedule;
     },
+
+    async savedSchedule(providerId, userId) {
+
+      const response = await $axios.put(`/appointments/schedule/${providerId}`, {"patientId": userId})
+      const scheduleResponse = response.data
+
+      const updatedSchedule = this.schedule.map(schedule => {
+        if (scheduleResponse.id === schedule.id) {
+          schedule.reservation = true
+        }
+        return schedule
+      })
+      this.schedule = updatedSchedule;
+      return scheduleResponse;
+    },
    
     restartUserStates() {
-    
+      this.users = {}
+      this.providers = []
+      this.schedule = []
+      this.foundUser = {}
     }
   },
 })
